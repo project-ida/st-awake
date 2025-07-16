@@ -19,9 +19,8 @@ This repository contains a Python script and GitHub Actions workflow that wakes 
 
 ## Usage
 
-1. Add your Streamlit app URLs to the `STREAMLIT_APPS` list in `wake_up_streamlit.py`.
+1. Add your Streamlit app URLs to the `STREAMLIT_APPS` list in `streamlit_app.py`.
 2. Set up the GitHub Actions workflow by copying the `.github/workflows/wake-up.yml` file to your repository.
-3. Make sure to install the required dependencies, including Selenium.
 
 ## Log file
 
