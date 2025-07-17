@@ -27,13 +27,19 @@ with open("wakeup_log.txt", "a") as log_file:
             # Check if the wake up button exists
             try:
                 button = WebDriverWait(driver, 30).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, "button[data-testid='wakeup-button-viewer']"))
+                    EC.element_to_be_clickable((By.CSS_SELECTOR, "button[data-testid='wakeup-button-viewer']"))
                 )
-                
-                button.click()
+                driver.execute_script("arguments[0].click();", button)
+            
+                # Wait for the button to disappear (app booting up)
+                WebDriverWait(driver, 15).until(
+                    EC.invisibility_of_element_located((By.CSS_SELECTOR, "button[data-testid='wakeup-button-viewer']"))
+                )
+            
                 log_file.write(f"[{datetime.datetime.now()}] Successfully woke up app at: {url}\n")
             except TimeoutException:
-                log_file.write(f"[{datetime.datetime.now()}] Button not found for app at: {url}\n")
+                log_file.write(f"[{datetime.datetime.now()}] Button not found or did not disappear after click for app at: {url}\n")
+
         
         except Exception as e:
             log_file.write(f"[{datetime.datetime.now()}] Error for app at {url}: {str(e)}\n")
