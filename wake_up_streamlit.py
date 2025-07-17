@@ -5,6 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from streamlit_app import STREAMLIT_APPS
 import datetime
+import time
 
 # Set up Selenium webdriver
 options = webdriver.ChromeOptions()
@@ -35,10 +36,13 @@ with open("wakeup_log.txt", "a") as log_file:
                 WebDriverWait(driver, 15).until(
                     EC.invisibility_of_element_located((By.CSS_SELECTOR, "button[data-testid='wakeup-button-viewer']"))
                 )
+                
+                # Give the app time to fully start up before browser closes
+                time.sleep(10)
             
-                log_file.write(f"[{datetime.datetime.now()}] Successfully woke up app at: {url}\n")
+                log_file.write(f"[{datetime.datetime.now()}] App is likely starting OK at: {url}\n")
             except TimeoutException:
-                log_file.write(f"[{datetime.datetime.now()}] Button not found or did not disappear after click for app at: {url}\n")
+                log_file.write(f"[{datetime.datetime.now()}] Button not found or did not disappear after click at: {url}\n")
 
         
         except Exception as e:
