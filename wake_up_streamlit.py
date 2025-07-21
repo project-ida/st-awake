@@ -48,7 +48,7 @@ with open("wakeup_log.txt", "a") as log_file:
                 
                 print(f"[{datetime.datetime.now()}] Wake up botton disappeared after click: {url}\n")
                 log_file.write(f"[{datetime.datetime.now()}]  Wake up botton disappeared after click: {url}\n")
-            except
+            except:
                 print(f"[{datetime.datetime.now()}] Wake up botton still hanging around: {url}\n")
                 log_file.write(f"[{datetime.datetime.now()}]  Wake up botton still hanging around: {url}\n")
         
