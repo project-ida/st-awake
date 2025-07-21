@@ -14,6 +14,7 @@ driver = webdriver.Chrome(options=options)
 
 # Initialize log file
 with open("wakeup_log.txt", "a") as log_file:
+    print(f"Execution started at: {datetime.datetime.now()}\n")
     log_file.write(f"Execution started at: {datetime.datetime.now()}\n")
 
     # Iterate through each URL in the list
@@ -31,21 +32,28 @@ with open("wakeup_log.txt", "a") as log_file:
                     EC.element_to_be_clickable((By.CSS_SELECTOR, "button[data-testid='wakeup-button-viewer']"))
                 )
                 driver.execute_script("arguments[0].click();", button)
-            
+                
+                print(f"[{datetime.datetime.now()}] Wake up button clicked at: {url}\n")
+                log_file.write(f"[{datetime.datetime.now()}]  Wake up button clicked at: {url}\n")
+            except TimeoutException:
+                print(f"[{datetime.datetime.now()}] Button not found: {url}\n")
+                log_file.write(f"[{datetime.datetime.now()}] Button not found: {url}\n")
+            try:
                 # Wait for the button to disappear (app booting up)
                 WebDriverWait(driver, 15).until(
                     EC.invisibility_of_element_located((By.CSS_SELECTOR, "button[data-testid='wakeup-button-viewer']"))
                 )
-                
                 # Give the app time to fully start up before browser closes
                 time.sleep(10)
-            
-                log_file.write(f"[{datetime.datetime.now()}] App is likely starting OK at: {url}\n")
-            except TimeoutException:
-                log_file.write(f"[{datetime.datetime.now()}] Button not found or did not disappear after click at: {url}\n")
-
+                
+                print(f"[{datetime.datetime.now()}] Wake up botton disappeared after click: {url}\n")
+                log_file.write(f"[{datetime.datetime.now()}]  Wake up botton disappeared after click: {url}\n")
+            except
+                print(f"[{datetime.datetime.now()}] Wake up botton still hanging around: {url}\n")
+                log_file.write(f"[{datetime.datetime.now()}]  Wake up botton still hanging around: {url}\n")
         
         except Exception as e:
+            print(f"[{datetime.datetime.now()}] Error for app at {url}: {str(e)}\n")
             log_file.write(f"[{datetime.datetime.now()}] Error for app at {url}: {str(e)}\n")
 
 # Close the browser
